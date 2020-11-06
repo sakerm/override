@@ -1,0 +1,18 @@
+On décompile l'executable avec ghidra, nous donnant le main écrit en c.
+On voit que le programme attend simplement la valeur 0x149c, c'est a dire 5276.
+
+$ ./level00 
+***********************************
+* 	     -Level00 -		  *
+***********************************
+Password:5276
+
+Authenticated!
+whoami
+level01
+cat ~level01/.pass
+uSq2ehEGT6c9S24zbshexZQBXUGrncxn5sD5QfGL
+
+
+
+
