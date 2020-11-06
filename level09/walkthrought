@@ -16,7 +16,7 @@ Nous pouvons utiliser l'overflow de 1 pour écrire sur la size, qui est le param
 
 Le but va être d'appeler secret_backdoor() à l'aide du strncpy() de set_msg() tout en changeant son paramètre pour nous lancer un terminal.
 
-On utilise gdb-peda pour pour obtenir l'adresse de RBP, on calcule son offset et on ajoute 8 pour overwrite RSP.
+On utilise gdb-peda pour pour obtenir l'adresse de RBP en faisant segfault le programme, on calcule son offset et on ajoute 8 pour overwrite RSP.
 
 On récupère l'adresse de la fonction secret_backdoor -> 0x000055555555488c
 
