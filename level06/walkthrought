@@ -1,0 +1,59 @@
+Le programme nous demande un login puis le serial de ce login, si le serial attendu est donné, alors on obtient un terminal. Le but est de reussir à passer la fonction auth().
+
+Dnas la fonction auth() on voit un appel à ptrace() qui empêche de lance le programme dans un debugger.
+
+Il va falloir lire la mémoire au moment ou la fonction compare l'input avec le serial généré tout en bypassant ptrace().
+
+(gdb) catch syscall ptrace
+Catchpoint 1 (syscall 'ptrace' [26])
+(gdb) commands 1
+Type commands for breakpoint(s) 1, one per line.
+End with a line saying just "end".
+>set $eax=0
+>continue
+>end
+
+ptrace() renverra maintenant toujours 0.
+On place maintenant un breakpoint au niveau de la comparaison à auth+286
+(0x08048866 <+286>:   cmp    -0x10(%ebp),%eax)
+
+(gdb) b *auth+286
+Breakpoint 2 at 0x8048866
+(gdb) r
+Starting program: /home/users/level06/level06
+***********************************
+*               level06           *
+***********************************
+-> Enter Login: chocolat
+***********************************
+***** NEW ACCOUNT DETECTED ********
+***********************************
+-> Enter Serial: 8888
+
+Catchpoint 1 (call to syscall ptrace), 0xf7fdb440 in __kernel_vsyscall ()
+
+Catchpoint 1 (returned from syscall ptrace), 0xf7fdb440 in __kernel_vsyscall ()
+
+Breakpoint 2, 0x08048866 in auth ()
+(gdb) p $eax
+$1 = 8888
+
+On trouve notre serial dans eax, le serial généré est donc dans ebp-0x10
+
+(gdb) x/x $ebp-0x10
+0xffffd698:     0x005f216e -> 6234478
+
+./level06
+***********************************
+*               level06           *
+***********************************
+-> Enter Login: chocolat
+***********************************
+***** NEW ACCOUNT DETECTED ********
+***********************************
+-> Enter Serial: 6234478
+Authenticated!
+whoami
+level07
+cat ~level07/.pass
+GbcPDRgsFK77LNnnuh7QyFYA2942Gp8yKj9KrWD8
