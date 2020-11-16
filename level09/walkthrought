@@ -16,11 +16,13 @@ Nous pouvons utiliser l'overflow de 1 pour écrire sur la size, qui est le param
 
 Le but va être d'appeler secret_backdoor() à l'aide du strncpy() de set_msg() tout en changeant son paramètre pour nous lancer un terminal.
 
-On utilise gdb-peda pour pour obtenir l'adresse de RBP en faisant segfault le programme, on calcule son offset et on ajoute 8 pour overwrite RSP.
+On utilise gdb-peda pour obtenir l'adresse de RSP en faisant segfault le programme, on calcule son offset -> 200.
+
+Ici le programme est en 64 bits, l'EIP est donc remplacé par le RIP, lors du retour à la fonction précédante, le RIP est égale à l'adresse pointé par RSP, modifier RSP permettra donc à la fonction handle_msg de pointer vers secret_backdoor au lieu de main.
 
 On récupère l'adresse de la fonction secret_backdoor -> 0x000055555555488c
 
-On crée le crack: 40 (username) + \xff (255 dans le strncpy) + \n + 200 (offset rbp + rsp) + 0x000055555555488c (adresse secret_backdoor) + \n + /bin/sh (terminal)
+On crée le crack: 40 (username) + \xff (255 dans le strncpy) + \n + 200 (offset rsp) + 0x000055555555488c (adresse secret_backdoor) + \n + /bin/sh (terminal)
 
 (python -c 'print "a"*40+"\xff"+"\n"+"a"*200+"\x8c\x48\x55\x55\x55\x55\x00\x00"+"\n"+"/bin/sh\n"'; cat) | ./level09
 --------------------------------------------

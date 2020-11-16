@@ -1,6 +1,7 @@
 Un main gigantesque cette fois ! Nous remarquons beaucoup de chose en lisant tout ca.
 
-Nous pouvons voir un fopen et un fread (fread est une fonction qui lit l'entrée de la mémoire tampon d'un fichier) dans le fichier password. On voit surtout que printf appel une variable directement, ce qui nous permet d'afficher la stack.
+Nous pouvons voir un fopen et un fread (fread est une fonction qui lit l'entrée de la mémoire tampon d'un fichier) dans le fichier password. 
+On voit surtout que printf appel une variable directement, ce qui nous permet d'afficher la stack, or on voit dans le code que le fichier .pass est stocké dans un buffer, le mot de passe se trouve donc quelque part sur la stack.
 
 level02@OverRide:~$ for(( i = 1; i < 30; i++)); do echo "$i - %$i\$p" | ./level02 | grep does; done
 21 - (nil) does not have access!

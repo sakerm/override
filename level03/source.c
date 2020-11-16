@@ -9,7 +9,7 @@ undefined4 main(void)
   puts("***********************************");
   printf("Password:");
   __isoc99_scanf();
-  test();
+  test(); // dans gdb on voit que le premier paramètre est 0x1337d00d -> 322424845 et le 2ème est l'input
   return 0;
 }
 
@@ -22,6 +22,7 @@ void test(int param_1,int param_2)
   size_t in_stack_ffffffe4;
   
   ctx = (EVP_PKEY_CTX *)(param_2 - param_1);
+  // comparaison avec 0x15 non affiché par ghidra, si ctx < 22 alors decrypt est appelé
   switch(ctx) {
   default:
     ctx = (EVP_PKEY_CTX *)rand();

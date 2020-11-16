@@ -8,10 +8,9 @@ int main(void)
 
     for (int i = 0; i <= 21; i++)
     {
-        bzero(&tmp, 17);
         for (int j = 0; j < 17; j++)
             tmp[j] = buf[j] ^ i; 
-        printf("%s %d\n", tmp, 322424845 - i);
+        printf("%s -> %d\n", tmp, 322424845 - i);
     }
     return 0;
 }

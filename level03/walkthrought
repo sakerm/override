@@ -3,7 +3,7 @@ On récupère la source à l'aide de ghidra, cependant un manque d'informations 
 Le programme prend un entier avec scanf et lance la fonction test avec le nombre 322424845
 La fonction test soustrait ce nombre à l'input et lance la fonction decrypt si le resultat est inderieur à 22.
 
-La fonction decrypt à un buffer contenant "Q}|u`sfg~sf{}|a3" et effectue un XOR sur char de ce buffer avec la paramètre que l'on lui a donné.
+La fonction decrypt à un buffer contenant "Q}|u`sfg~sf{}|a3" et effectue un XOR sur char de ce buffer avec la paramètre qu'on lui a donné.
 
 Il suffit de créer un programme effectuant l'inverse de decrypt et de le tester sur les 21 possibilitées.
 

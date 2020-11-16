@@ -1,5 +1,4 @@
 undefined8 main(void)
-
 {
   int iVar1;
   size_t sVar2;
